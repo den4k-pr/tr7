@@ -318,6 +318,8 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  border: 1px solid #fff;
+  border-radius: 12px;
 }
 
 /* Стилі для оверлею та кнопки play (JS їх інжектить) */
@@ -730,7 +732,19 @@
   gap: 14px;
 }
 
-.s4-prev,
+.s4-prev{
+   width: 45px !important;
+  height: 45px !important;
+  border: 1px solid #fff !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: static !important;
+  margin: 0 !important;
+  cursor: pointer;
+  z-index: 10;
+}
 .s4-next {
   width: 45px !important;
   height: 45px !important;
@@ -908,7 +922,19 @@ color: #000;
   gap: 14px;
 }
 
-.s6-prev,
+.s6-prev{
+   width: 45px !important;
+  height: 45px !important;
+  border: 1px solid #fff !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: static !important;
+  margin: 0 !important;
+  cursor: pointer;
+  z-index: 10;
+}
 .s6-next {
   width: 45px !important;
   height: 45px !important;
@@ -1032,19 +1058,210 @@ color: #000;
   gap: 14px;
 }
 
-.s5-mockup-wrapper {
-  width: 380px;
+/* Контейнер для двох карток (замість img) */
+.s5-flip-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Тінь та округлення вже вбудовані у картинку, але додамо базові, якщо картинка завантажується не ідеально */
-  filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
+  gap: 9px;
+  width: 100%;
 }
 
-.s5-mockup-img {
+/* Налаштування перспективи для 3D ефекту */
+.s5-flip-card {
+  width: 185px;
+  height: 424px;
+  perspective: 1000px; /* Створює 3D простір */
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent; /* Забирає синій клік на мобільних */
+}
+
+/* Внутрішній контейнер, що обертається */
+.s5-flip-card-inner {
+  position: relative;
   width: 100%;
-  height: auto;
+  height: 100%;
+  text-align: left;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
   border-radius: 21.31px;
+}
+
+/* Клас, який додається через JS (onclick) для перевороту */
+.s5-flip-card.flipped .s5-flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Спільні стилі для обох сторін */
+.s5-flip-card-front, 
+.s5-flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Ховає зворотну сторону, коли вона повернута назад */
+  backface-visibility: hidden;
+  border-radius: 21.31px;
+  overflow: hidden;
+  background: white;
+}
+
+/* Лицьова сторона */
+.s5-flip-card-front {
+  transform: rotateY(0deg);
+}
+
+.s5-flip-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Зворотня сторона (Текст) */
+.s5-flip-card-back {
+  transform: rotateY(180deg);
+  /* Ефект скла на фоні (як у вашому прикладі) */
+  background: white; 
+  position: relative;
+}
+
+.s5-flip-card-back::before {
+  content: '';
+  position: absolute;
+  width: 326px;
+  height: 462px;
+  left: -61px;
+  top: -20px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(25px);
+  z-index: 0;
+}
+
+.s5-flip-back-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+  box-sizing: border-box;
+}
+.s5-flip-back-content svg{
+  height: 1px;
+}
+
+.s5-fb-title {
+  color: black;
+  font-size: 16px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 20px;
+  word-wrap: break-word;
+}
+
+.s5-fb-desc {
+  color: black;
+  font-size: 14px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+  word-wrap: break-word;
+  line-height: 120%;
+}
+
+.s5-fb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  border-top: 1px solid #00000030;
+  border-bottom: 1px solid #00000030;
+  padding: 10px 0;
+}
+
+.s5-fb-list-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.s5-fb-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.s5-fb-text {
+  flex: 1;
+  color: black;
+  font-size: 16px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+  line-height: 20px;
+  word-wrap: break-word;
+}
+
+.s5-fb-footer {
+  color: black;
+  font-size: 14px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+  word-wrap: break-word;
+  line-height: 120%;
+}
+
+.s5-fb-bold {
+  font-weight: 700;
+}
+
+/* Адаптація для @media (max-width: 440px) */
+@media (max-width: 440px) {
+  .s5-flip-container {
+    gap: 2.1vw;
+  }
+  .s5-flip-card {
+    width: 43.22vw;
+    height: 99.07vw;
+  }
+  .s5-flip-card-inner {
+    border-radius: 4.98vw;
+  }
+  .s5-flip-card-front, .s5-flip-card-back {
+    border-radius: 4.98vw;
+  }
+  .s5-flip-back-content {
+    padding: 2.34vw;
+    gap: 1.87vw;
+  }
+  .s5-fb-title {
+    font-size: 3.74vw;
+    line-height: 4.67vw;
+  }
+  .s5-fb-desc {
+    font-size: 3.27vw;
+  }
+  .s5-fb-list {
+    gap: 1.87vw;
+  }
+  .s5-fb-list-item {
+    gap: 1.87vw;
+  }
+  .s5-fb-icon {
+    width: 5.61vw;
+    height: 5.61vw;
+  }
+  .s5-fb-text {
+    font-size: 3.74vw;
+    line-height: 4.67vw;
+  }
+  .s5-fb-footer {
+    font-size: 3.27vw;
+  }
 }
 
 .s5-features-list {
